@@ -46,7 +46,7 @@
     <!-- Section Header with Progress Ring -->
     <div class="section-header">
       <div class="section-title-wrap">
-        <h2 class="section-title">Today</h2>
+        <h2 class="section-title" id="sectionTitle">Today</h2>
       </div>
       <div class="header-widgets">
         <div class="progress-ring-container">
@@ -92,7 +92,7 @@
       </div>
     </main>
 
-    <!-- Bottom Filter Tabs -->
+    <!-- Bottom Filter Tabs (Includes Recently Deleted Trash Bin) -->
     <nav class="bottom-nav">
       <button class="nav-item active" data-filter="all" title="All Tasks">
         <span>All</span>
@@ -103,7 +103,11 @@
       </button>
 
       <button class="nav-item" data-filter="completed" title="Completed Tasks">
-        <span>Completed</span>
+        <span>Done</span>
+      </button>
+
+      <button class="nav-item" data-filter="trash" title="Recently Deleted">
+        <span>Trash</span>
       </button>
     </nav>
 

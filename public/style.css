@@ -443,7 +443,7 @@ body.widget-mode .app-container {
   flex-shrink: 0;
 }
 
-.card-delete-btn {
+.card-action-btn {
   background: transparent;
   border: none;
   color: var(--text-muted);
@@ -456,9 +456,24 @@ body.widget-mode .app-container {
   transition: all 0.2s ease;
 }
 
-.card-delete-btn:hover {
+.trash-btn:hover {
   color: var(--pastel-rose-text);
   background: var(--pastel-rose-bg);
+}
+
+.restore-btn:hover {
+  color: var(--pastel-mint-text);
+  background: var(--pastel-mint-bg);
+}
+
+.purge-btn:hover {
+  color: #dc2626;
+  background: #fee2e2;
+}
+
+.task-card.in-trash {
+  border-style: dashed;
+  opacity: 0.85;
 }
 
 .card-checkbox {

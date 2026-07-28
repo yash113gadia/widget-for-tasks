@@ -36,6 +36,7 @@
   const addDrawer = document.getElementById('addDrawer');
   const toggleAddDrawerBtn = document.getElementById('toggleAddDrawerBtn');
   const soundBtn = document.getElementById('soundBtn');
+  const sectionTitle = document.getElementById('sectionTitle');
   const navItems = document.querySelectorAll('.bottom-nav .nav-item[data-filter]');
 
   // Live Date & Time Updater
@@ -105,28 +106,36 @@
     });
   }
 
-  // Calculate Progress Ring
+  // Calculate Progress Ring (Only non-deleted tasks)
   function updateProgressRing() {
+    const activeNonDeleted = tasks.filter(t => !t.deleted);
     const circumference = 81.68;
-    if (tasks.length === 0) {
+    if (activeNonDeleted.length === 0) {
       progressPercent.textContent = '0%';
       progressRingCircle.style.strokeDashoffset = circumference;
       return;
     }
 
-    const completed = tasks.filter(t => t.completed).length;
-    const percent = Math.round((completed / tasks.length) * 100);
+    const completed = activeNonDeleted.filter(t => t.completed).length;
+    const percent = Math.round((completed / activeNonDeleted.length) * 100);
     progressPercent.textContent = `${percent}%`;
 
     const offset = circumference - (percent / 100) * circumference;
     progressRingCircle.style.strokeDashoffset = offset;
   }
 
-  // Filter Tasks
+  // Filter Tasks (Active / Completed / Trash)
   function getFilteredTasks() {
     return tasks.filter((task) => {
       const matchesSearch = (task.title || '').toLowerCase().includes(searchQuery.toLowerCase());
       if (!matchesSearch) return false;
+
+      if (currentFilter === 'trash') {
+        return !!task.deleted;
+      }
+      
+      // For non-trash tabs, exclude deleted tasks
+      if (task.deleted) return false;
 
       if (currentFilter === 'active') return !task.completed;
       if (currentFilter === 'completed') return task.completed;
@@ -134,16 +143,27 @@
     });
   }
 
-  // Render Tasks with Clear Trash Can Icon
+  // Render Tasks
   function renderTasks() {
     updateProgressRing();
     const filtered = getFilteredTasks();
 
+    if (currentFilter === 'trash') {
+      sectionTitle.textContent = 'Recently Deleted';
+    } else if (currentFilter === 'active') {
+      sectionTitle.textContent = 'Active';
+    } else if (currentFilter === 'completed') {
+      sectionTitle.textContent = 'Completed';
+    } else {
+      sectionTitle.textContent = 'Today';
+    }
+
     if (filtered.length === 0) {
+      const emptyMsg = currentFilter === 'trash' ? 'Trash is empty' : 'No tasks found';
       taskListEl.innerHTML = `
         <div style="text-align: center; padding: 40px 10px; color: var(--text-sub);">
-          <p style="font-size: 0.9rem; font-weight: 600; color: var(--text-main);">No tasks found</p>
-          <p style="font-size: 0.78rem; margin-top: 4px; color: var(--text-muted);">Click (+) to add a new task</p>
+          <p style="font-size: 0.9rem; font-weight: 600; color: var(--text-main);">${emptyMsg}</p>
+          <p style="font-size: 0.78rem; margin-top: 4px; color: var(--text-muted);">${currentFilter === 'trash' ? 'Deleted tasks appear here' : 'Click (+) to add a new task'}</p>
         </div>
       `;
       return;
@@ -159,8 +179,10 @@
           ? new Date(task.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
           : 'TODAY';
 
+        const isTrashView = currentFilter === 'trash';
+
         return `
-          <div class="task-card ${task.completed ? 'completed' : ''}" data-id="${task.id}">
+          <div class="task-card ${task.completed ? 'completed' : ''} ${isTrashView ? 'in-trash' : ''}" data-id="${task.id}">
             <div class="task-card-accent-bar ${barClass}"></div>
             <div class="task-card-body">
               <div class="task-card-left">
@@ -171,13 +193,24 @@
                 </div>
               </div>
               <div class="task-card-right">
-                <!-- Clear Trash Can Icon with Delete Title -->
-                <button class="card-delete-btn" data-action="delete" title="Delete Task">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                </button>
-                <div class="card-checkbox" data-action="toggle" title="Toggle Done">
-                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                </div>
+                ${isTrashView ? `
+                  <!-- Restore Button -->
+                  <button class="card-action-btn restore-btn" data-action="restore" title="Restore Task">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                  </button>
+                  <!-- Permanent Delete Button -->
+                  <button class="card-action-btn purge-btn" data-action="purge" title="Delete Permanently">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  </button>
+                ` : `
+                  <!-- Move to Recently Deleted Button -->
+                  <button class="card-action-btn trash-btn" data-action="trash" title="Move to Trash">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  </button>
+                  <div class="card-checkbox" data-action="toggle" title="Toggle Done">
+                    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </div>
+                `}
               </div>
             </div>
           </div>
@@ -190,7 +223,7 @@
     return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  // Submit New Task to Private Vault
+  // Submit New Task
   taskForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const title = taskInput.value.trim();
@@ -201,6 +234,7 @@
       category: categoryInput.value,
       priority: priorityInput.value,
       completed: false,
+      deleted: false,
       createdAt: Date.now()
     };
 
@@ -219,7 +253,7 @@
     renderTasks();
   });
 
-  // Task Actions (Toggle / Delete with Confirmation Guard)
+  // Task Actions (Toggle / Move to Trash / Restore / Permanent Purge)
   taskListEl.addEventListener('click', async (e) => {
     const target = e.target.closest('[data-action]');
     if (!target) return;
@@ -240,17 +274,26 @@
           console.error("Error updating task:", err);
         }
       }
-    } else if (action === 'delete') {
-      const task = tasks.find(t => t.id === id);
-      const title = task ? `"${task.title}"` : 'this task';
-      
-      // Confirmation safeguard against accidental deletes
-      if (confirm(`Delete ${title}?`)) {
-        try {
-          await tasksCollection.doc(id).delete();
-        } catch (err) {
-          console.error("Error deleting task:", err);
-        }
+    } else if (action === 'trash') {
+      // Soft Delete: Move to Recently Deleted (Trash Bin)
+      try {
+        await tasksCollection.doc(id).update({ deleted: true, deletedAt: Date.now() });
+      } catch (err) {
+        console.error("Error moving task to trash:", err);
+      }
+    } else if (action === 'restore') {
+      // Restore task from Trash Bin back to active
+      try {
+        await tasksCollection.doc(id).update({ deleted: false });
+      } catch (err) {
+        console.error("Error restoring task:", err);
+      }
+    } else if (action === 'purge') {
+      // Permanent Delete from Cloud Vault
+      try {
+        await tasksCollection.doc(id).delete();
+      } catch (err) {
+        console.error("Error purging task:", err);
       }
     }
   });
