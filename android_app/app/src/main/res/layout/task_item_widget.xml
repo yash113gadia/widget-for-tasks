@@ -44,23 +44,13 @@
             android:layout_marginTop="3dp" />
     </LinearLayout>
 
-    <!-- Action 1: Trash / Restore Button -->
-    <ImageView
-        android:id="@+id/itemActionButton"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:padding="6dp"
-        android:src="@drawable/ic_trash_bin"
-        android:contentDescription="Delete Task" />
-
-    <!-- Action 2: Checkbox Button -->
+    <!-- Checkbox Button (Mark Done / Toggle) -->
     <ImageView
         android:id="@+id/itemCheckButton"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
         android:padding="4dp"
         android:src="@drawable/ic_check_box_outline"
-        android:contentDescription="Toggle Task"
-        android:layout_marginStart="4dp" />
+        android:contentDescription="Toggle Task" />
 
 </LinearLayout>
