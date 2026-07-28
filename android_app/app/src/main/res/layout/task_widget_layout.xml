@@ -58,7 +58,18 @@
                 android:textColor="#6366f1"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:layout_marginEnd="10dp" />
+                android:layout_marginEnd="6dp" />
+
+            <!-- Refresh Button -->
+            <ImageButton
+                android:id="@+id/widgetRefreshBtn"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:background="#e0e7ff"
+                android:src="@android:drawable/stat_notify_sync"
+                android:contentDescription="Refresh Widget"
+                android:tint="#6366f1"
+                android:layout_marginEnd="6dp" />
 
             <!-- Add Task Button (+) -->
             <ImageButton
