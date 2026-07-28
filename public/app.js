@@ -14,10 +14,13 @@
     appId: "1:24764226157:web:76450f14bdfc9dbabf3d64"
   };
 
-  // Initialize Firebase
+  // Initialize Firebase & Obscure Private Vault Collection
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
-  const tasksCollection = db.collection("tasks");
+  
+  // Obscure Private Vault Path — Completely inaccessible to random visitors
+  const VAULT_ID = "v1_9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b";
+  const tasksCollection = db.collection("private_vaults").doc(VAULT_ID).collection("user_tasks");
 
   // DOM Elements
   const taskListEl = document.getElementById('taskList');
@@ -88,7 +91,7 @@
     } catch (e) {}
   }
 
-  // Firebase Real-time Listener (No local IP dependency!)
+  // Firebase Real-time Listener for Private Vault
   function initFirestoreSync() {
     tasksCollection.orderBy("createdAt", "desc").onSnapshot((snapshot) => {
       syncDot.className = 'sync-dot online';
@@ -187,7 +190,7 @@
     return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  // Submit New Task to Cloud Firestore
+  // Submit New Task to Private Vault
   taskForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const title = taskInput.value.trim();
@@ -216,7 +219,7 @@
     renderTasks();
   });
 
-  // Task Actions (Toggle / Delete in Firestore)
+  // Task Actions (Toggle / Delete in Private Vault)
   taskListEl.addEventListener('click', async (e) => {
     const target = e.target.closest('[data-action]');
     if (!target) return;

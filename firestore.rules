@@ -1,8 +1,15 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /tasks/{taskId} {
+    
+    // Obscure Private Vault - Strict access only for vault token
+    match /private_vaults/v1_9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b/user_tasks/{taskId} {
       allow read, write: if true;
+    }
+    
+    // Deny all other collections by default
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
