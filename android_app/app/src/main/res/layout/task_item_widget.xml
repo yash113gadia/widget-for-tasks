@@ -10,8 +10,8 @@
     android:paddingBottom="8dp"
     android:gravity="center_vertical">
 
-    <!-- Priority Accent Bar -->
-    <View
+    <!-- Priority Accent Bar (Using FrameLayout instead of View for RemoteViews support) -->
+    <FrameLayout
         android:id="@+id/itemPriorityBar"
         android:layout_width="4dp"
         android:layout_height="34dp"
