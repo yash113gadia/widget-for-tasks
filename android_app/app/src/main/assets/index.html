@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8fafc">
+  <meta name="description" content="Synced task widget between Pixel and MacBook">
+  <title>Task Widget</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="widget-mode">
+
+  <div class="app-container" id="app">
+    
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="user-greeting">
+        <h1 class="greeting-text">Tasks</h1>
+        <div class="date-time-line">
+          <span id="currentDate">Tuesday, 28 Jul</span>
+          <span class="dot-separator">•</span>
+          <span id="currentTime">10:48 AM</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <!-- Sound Toggle -->
+        <button class="header-icon-btn" id="soundBtn" title="Toggle Sound Chime">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+        </button>
+        <!-- Sync Dot (Cloud Sync Status) -->
+        <span class="sync-badge" id="syncStatus" title="Synced via Cloud DB">
+          <span class="sync-dot online" id="syncDot"></span>
+        </span>
+      </div>
+    </header>
+
+    <!-- Search Section -->
+    <div class="search-section">
+      <div class="search-bar">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" placeholder="Search tasks..." autocomplete="off">
+      </div>
+    </div>
+
+    <!-- Section Header with Progress Ring -->
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <h2 class="section-title">Today</h2>
+      </div>
+      <div class="header-widgets">
+        <div class="progress-ring-container">
+          <svg class="progress-ring" width="34" height="34">
+            <circle class="progress-ring-bg" stroke="#e2e8f0" stroke-width="2.5" fill="transparent" r="13" cx="17" cy="17"/>
+            <circle class="progress-ring-circle" id="progressRingCircle" stroke="#6366f1" stroke-width="2.5" fill="transparent" r="13" cx="17" cy="17"/>
+          </svg>
+          <span class="progress-text" id="progressPercent">0%</span>
+        </div>
+        <button class="icon-add-btn" id="toggleAddDrawerBtn" title="Add Task">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick Add Drawer (Collapsible) -->
+    <div class="add-drawer" id="addDrawer">
+      <form id="taskForm" class="drawer-form">
+        <input type="text" id="taskInput" class="drawer-input" placeholder="Add a new task..." required autocomplete="off">
+        
+        <div class="drawer-row">
+          <select id="priorityInput" class="drawer-select">
+            <option value="high">High Priority</option>
+            <option value="medium" selected>Medium Priority</option>
+            <option value="low">Low Priority</option>
+          </select>
+          
+          <select id="categoryInput" class="drawer-select">
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
+            <option value="Learning">Learning</option>
+          </select>
+          
+          <button type="submit" class="drawer-submit-btn">Add Task</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Task List Main -->
+    <main class="task-list-main">
+      <div class="task-list" id="taskList">
+        <!-- Rendered dynamically -->
+      </div>
+    </main>
+
+    <!-- Bottom Filter Tabs -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-filter="all" title="All Tasks">
+        <span>All</span>
+      </button>
+
+      <button class="nav-item" data-filter="active" title="Active Tasks">
+        <span>Active</span>
+      </button>
+
+      <button class="nav-item" data-filter="completed" title="Completed Tasks">
+        <span>Completed</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- Firebase Cloud Firestore SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <script src="/app.js"></script>
+</body>
+</html>
