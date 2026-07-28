@@ -50,21 +50,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#e0e7ff"
-                android:paddingStart="8dp"
-                android:paddingTop="3dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="3dp"
+                android:paddingStart="10dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="4dp"
                 android:text="0%"
                 android:textColor="#6366f1"
-                android:textSize="11sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 android:layout_marginEnd="8dp" />
 
             <!-- Add Task Button (+) -->
             <ImageButton
                 android:id="@+id/widgetAddBtn"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
                 android:background="#e0e7ff"
                 android:src="@android:drawable/ic_input_add"
                 android:contentDescription="Add Task"
@@ -94,59 +94,68 @@
         android:textSize="13sp"
         android:visibility="gone" />
 
-    <!-- Bottom Filter Tabs -->
+    <!-- Bottom Filter Tabs Navigation Bar (High Touch Targets) -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="44dp"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
         android:background="#ffffff"
-        android:padding="2dp">
+        android:padding="3dp"
+        android:gravity="center_vertical">
 
-        <Button
+        <TextView
             android:id="@+id/tabAll"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="All"
             android:textColor="#6366f1"
-            android:backgroundTint="#e0e7ff"
-            android:textSize="11sp"
+            android:background="#e0e7ff"
+            android:textSize="12sp"
             android:textStyle="bold"
-            style="?android:attr/borderlessButtonStyle" />
+            android:clickable="true"
+            android:focusable="true" />
 
-        <Button
+        <TextView
             android:id="@+id/tabActive"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Active"
             android:textColor="#64748b"
-            android:backgroundTint="#ffffff"
-            android:textSize="11sp"
-            style="?android:attr/borderlessButtonStyle" />
+            android:background="#ffffff"
+            android:textSize="12sp"
+            android:clickable="true"
+            android:focusable="true" />
 
-        <Button
+        <TextView
             android:id="@+id/tabDone"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Done"
             android:textColor="#64748b"
-            android:backgroundTint="#ffffff"
-            android:textSize="11sp"
-            style="?android:attr/borderlessButtonStyle" />
+            android:background="#ffffff"
+            android:textSize="12sp"
+            android:clickable="true"
+            android:focusable="true" />
 
-        <Button
+        <TextView
             android:id="@+id/tabTrash"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Trash"
             android:textColor="#64748b"
-            android:backgroundTint="#ffffff"
-            android:textSize="11sp"
-            style="?android:attr/borderlessButtonStyle" />
+            android:background="#ffffff"
+            android:textSize="12sp"
+            android:clickable="true"
+            android:focusable="true" />
     </LinearLayout>
 
 </LinearLayout>

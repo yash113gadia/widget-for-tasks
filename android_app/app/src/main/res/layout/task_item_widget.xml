@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="#ffffff"
-    android:padding="10dp"
+    android:padding="12dp"
     android:layout_marginBottom="6dp"
     android:gravity="center_vertical">
 
@@ -12,9 +12,9 @@
     <View
         android:id="@+id/itemPriorityBar"
         android:layout_width="4dp"
-        android:layout_height="32dp"
+        android:layout_height="34dp"
         android:background="#e11d48"
-        android:layout_marginEnd="10dp" />
+        android:layout_marginEnd="12dp" />
 
     <!-- Task Details -->
     <LinearLayout
@@ -41,26 +41,25 @@
             android:text="10:48 AM"
             android:textColor="#64748b"
             android:textSize="11sp"
-            android:layout_marginTop="2dp" />
+            android:layout_marginTop="3dp" />
     </LinearLayout>
 
     <!-- Action 1: Trash / Restore Button -->
-    <ImageButton
+    <ImageView
         android:id="@+id/itemActionButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:src="@android:drawable/ic_menu_delete"
-        android:contentDescription="Delete Task"
-        android:tint="#94a3b8" />
+        android:padding="6dp"
+        android:src="@drawable/ic_trash_bin"
+        android:contentDescription="Delete Task" />
 
     <!-- Action 2: Checkbox Button -->
-    <ImageButton
+    <ImageView
         android:id="@+id/itemCheckButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:src="@android:drawable/checkbox_off_background"
+        android:padding="4dp"
+        android:src="@drawable/ic_check_box_outline"
         android:contentDescription="Toggle Task"
         android:layout_marginStart="4dp" />
 
