@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="14dp"
     android:background="#f8fafc">
 
     <!-- Top Header -->
     <RelativeLayout
+        android:id="@+id/headerContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_marginBottom="10dp">
 
         <LinearLayout
@@ -83,26 +84,25 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <!-- Task List (ListView inside RemoteViews) -->
+    <!-- Task List (ListView filling remaining space below header) -->
     <ListView
         android:id="@+id/widgetListView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerContainer"
         android:divider="@null"
-        android:dividerHeight="0dp"
-        android:nestedScrollingEnabled="true" />
+        android:dividerHeight="4dp" />
 
     <!-- Empty View for ListView -->
     <TextView
         android:id="@+id/widgetEmptyView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerContainer"
         android:gravity="center"
         android:text="No tasks found"
         android:textColor="#94a3b8"
         android:textSize="13sp"
         android:visibility="gone" />
 
-</LinearLayout>
+</RelativeLayout>

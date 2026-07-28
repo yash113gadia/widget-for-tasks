@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="54dp"
     android:orientation="horizontal"
     android:background="#ffffff"
-    android:padding="12dp"
-    android:layout_marginBottom="6dp"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
     android:gravity="center_vertical">
 
     <!-- Priority Accent Bar -->
@@ -31,7 +33,7 @@
             android:textColor="#0f172a"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:maxLines="2"
+            android:maxLines="1"
             android:ellipsize="end" />
 
         <TextView
@@ -41,10 +43,10 @@
             android:text="10:48 AM"
             android:textColor="#64748b"
             android:textSize="11sp"
-            android:layout_marginTop="3dp" />
+            android:layout_marginTop="2dp" />
     </LinearLayout>
 
-    <!-- Checkbox ImageButton (remote views compliant fill-in target) -->
+    <!-- Checkbox ImageButton -->
     <ImageButton
         android:id="@+id/itemCheckButton"
         android:layout_width="36dp"
