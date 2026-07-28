@@ -44,12 +44,13 @@
             android:layout_marginTop="3dp" />
     </LinearLayout>
 
-    <!-- Checkbox Button (Mark Done / Toggle) -->
-    <ImageView
+    <!-- Checkbox ImageButton (remote views compliant fill-in target) -->
+    <ImageButton
         android:id="@+id/itemCheckButton"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:padding="4dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:padding="6dp"
+        android:background="@android:color/transparent"
         android:src="@drawable/ic_check_box_outline"
         android:contentDescription="Toggle Task" />
 
