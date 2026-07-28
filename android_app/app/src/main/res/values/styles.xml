@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Custom Dialog Theme for Quick Add without black ActionBar header -->
+    <style name="Theme.TaskWidget.Dialog" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowElevation">12dp</item>
+    </style>
+</resources>

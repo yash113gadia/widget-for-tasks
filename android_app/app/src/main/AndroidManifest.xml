@@ -20,11 +20,11 @@
             </intent-filter>
         </activity>
 
-        <!-- Quick Add Dialog Activity -->
+        <!-- Quick Add Dialog Activity with custom NoTitle Dialog theme -->
         <activity
             android:name=".QuickAddActivity"
             android:exported="false"
-            android:theme="@style/Theme.MaterialComponents.DayNight.Dialog" />
+            android:theme="@style/Theme.TaskWidget.Dialog" />
 
         <!-- Native Android Home Screen Widget Provider -->
         <receiver

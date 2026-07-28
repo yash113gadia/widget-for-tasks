@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="320dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="20dp"
-    android:background="#ffffff">
+    android:background="@drawable/dialog_bg"
+    android:layout_gravity="center">
 
     <TextView
         android:layout_width="match_parent"
@@ -13,48 +14,52 @@
         android:textColor="#0f172a"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginBottom="14dp" />
+        android:layout_marginBottom="16dp" />
 
     <EditText
         android:id="@+id/quickTaskInput"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="46dp"
         android:hint="Type a new task..."
         android:textColor="#0f172a"
         android:textColorHint="#94a3b8"
         android:background="#f1f5f9"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
         android:textSize="14sp"
         android:inputType="textCapSentences"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="14dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="18dp">
 
         <Spinner
             android:id="@+id/quickPrioritySpinner"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
             android:layout_weight="1"
             android:background="#f1f5f9"
-            android:layout_marginEnd="6dp" />
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_marginEnd="8dp" />
 
         <Spinner
             android:id="@+id/quickCategorySpinner"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
             android:layout_weight="1"
-            android:background="#f1f5f9" />
+            android:background="#f1f5f9"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
     </LinearLayout>
 
     <Button
         android:id="@+id/quickSubmitBtn"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="46dp"
         android:text="Add Task to Cloud"
         android:textColor="#ffffff"
         android:backgroundTint="#6366f1"
