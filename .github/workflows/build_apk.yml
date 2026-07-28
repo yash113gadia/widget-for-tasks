@@ -17,12 +17,13 @@ jobs:
           java-version: '17'
           distribution: 'zulu'
 
-      - name: Make Gradle Wrapper Executable
-        run: chmod +x android_app/gradlew
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Build Debug APK
         run: |
           cd android_app
+          chmod +x gradlew
           ./gradlew assembleDebug
 
       - name: Upload APK Artifact

@@ -19,8 +19,6 @@
   const currentTimeEl = document.getElementById('currentTime');
   const addDrawer = document.getElementById('addDrawer');
   const toggleAddDrawerBtn = document.getElementById('toggleAddDrawerBtn');
-  const bigPlusBtn = document.getElementById('bigPlusBtn');
-  const navAddBtn = document.getElementById('navAddBtn');
   const qrBtn = document.getElementById('qrBtn');
   const soundBtn = document.getElementById('soundBtn');
   const qrModal = document.getElementById('qrModal');
@@ -267,7 +265,7 @@
   // Sound Toggle
   soundBtn.addEventListener('click', () => {
     isSoundEnabled = !isSoundEnabled;
-    soundBtn.style.color = isSoundEnabled ? 'var(--accent-pink)' : 'var(--text-dim)';
+    soundBtn.style.color = isSoundEnabled ? 'var(--accent-primary)' : 'var(--text-muted)';
   });
 
   // QR Code Modal
