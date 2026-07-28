@@ -443,19 +443,20 @@ body.widget-mode .app-container {
   flex-shrink: 0;
 }
 
-.card-options-btn {
+.card-delete-btn {
   background: transparent;
   border: none;
   color: var(--text-muted);
   cursor: pointer;
-  padding: 4px;
+  padding: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
-.card-options-btn:hover {
+.card-delete-btn:hover {
   color: var(--pastel-rose-text);
   background: var(--pastel-rose-bg);
 }

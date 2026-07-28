@@ -14,10 +14,12 @@
     appId: "1:24764226157:web:76450f14bdfc9dbabf3d64"
   };
 
-  // Initialize Firebase
+  // Initialize Firebase & Obscure Private Vault Collection
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
-  const tasksCollection = db.collection("tasks");
+  
+  const VAULT_ID = "v1_9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b";
+  const tasksCollection = db.collection("private_vaults").doc(VAULT_ID).collection("user_tasks");
 
   // DOM Elements
   const taskListEl = document.getElementById('taskList');
@@ -88,7 +90,7 @@
     } catch (e) {}
   }
 
-  // Firebase Real-time Listener (No local IP dependency!)
+  // Firebase Real-time Listener for Private Vault
   function initFirestoreSync() {
     tasksCollection.orderBy("createdAt", "desc").onSnapshot((snapshot) => {
       syncDot.className = 'sync-dot online';
@@ -132,7 +134,7 @@
     });
   }
 
-  // Render Tasks
+  // Render Tasks with Clear Trash Can Icon
   function renderTasks() {
     updateProgressRing();
     const filtered = getFilteredTasks();
@@ -169,10 +171,11 @@
                 </div>
               </div>
               <div class="task-card-right">
-                <button class="card-options-btn" data-action="delete" title="Delete">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                <!-- Clear Trash Can Icon with Delete Title -->
+                <button class="card-delete-btn" data-action="delete" title="Delete Task">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                 </button>
-                <div class="card-checkbox" data-action="toggle">
+                <div class="card-checkbox" data-action="toggle" title="Toggle Done">
                   <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
               </div>
@@ -187,7 +190,7 @@
     return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  // Submit New Task to Cloud Firestore
+  // Submit New Task to Private Vault
   taskForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const title = taskInput.value.trim();
@@ -216,7 +219,7 @@
     renderTasks();
   });
 
-  // Task Actions (Toggle / Delete in Firestore)
+  // Task Actions (Toggle / Delete with Confirmation Guard)
   taskListEl.addEventListener('click', async (e) => {
     const target = e.target.closest('[data-action]');
     if (!target) return;
@@ -238,10 +241,16 @@
         }
       }
     } else if (action === 'delete') {
-      try {
-        await tasksCollection.doc(id).delete();
-      } catch (err) {
-        console.error("Error deleting task:", err);
+      const task = tasks.find(t => t.id === id);
+      const title = task ? `"${task.title}"` : 'this task';
+      
+      // Confirmation safeguard against accidental deletes
+      if (confirm(`Delete ${title}?`)) {
+        try {
+          await tasksCollection.doc(id).delete();
+        } catch (err) {
+          console.error("Error deleting task:", err);
+        }
       }
     }
   });
