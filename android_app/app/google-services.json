@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "24764226157",
+    "project_id": "task-widget-sync",
+    "storage_bucket": "task-widget-sync.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24764226157:android:fb5c2d0ce61e8db5bf3d64",
+        "android_client_info": {
+          "package_name": "com.taskwidget.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGyhXg_P4aCiHTZXO57yRZJ55ULI7jKzw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

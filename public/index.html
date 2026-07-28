@@ -28,14 +28,10 @@
         <button class="header-icon-btn" id="soundBtn" title="Toggle Sound Chime">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
         </button>
-        <!-- Sync Dot -->
-        <span class="sync-badge" id="syncStatus" title="Synced with Pixel">
+        <!-- Sync Dot (Cloud Sync Status) -->
+        <span class="sync-badge" id="syncStatus" title="Synced via Cloud DB">
           <span class="sync-dot online" id="syncDot"></span>
         </span>
-        <!-- QR Code Pairing Avatar -->
-        <div class="avatar-icon" id="qrBtn" title="Pair Pixel Device">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        </div>
       </div>
     </header>
 
@@ -96,7 +92,7 @@
       </div>
     </main>
 
-    <!-- Bottom Filter Tabs (100% Fit, No Overflow) -->
+    <!-- Bottom Filter Tabs -->
     <nav class="bottom-nav">
       <button class="nav-item active" data-filter="all" title="All Tasks">
         <span>All</span>
@@ -113,19 +109,9 @@
 
   </div>
 
-  <!-- QR Code Modal -->
-  <div class="modal-overlay" id="qrModal">
-    <div class="modal-card">
-      <h2 style="font-size: 1rem; font-weight: 700; color: #0f172a; margin-bottom: 4px;">Pair Google Pixel</h2>
-      <p style="font-size: 0.8rem; color: #64748b;">Scan with your Pixel camera to sync instantly.</p>
-      
-      <img id="qrImage" class="qr-image" src="" alt="Pairing QR Code">
-      
-      <div class="url-code" id="networkUrl">http://localhost:3000</div>
-      
-      <button class="close-modal-btn" id="closeQrBtn">Close</button>
-    </div>
-  </div>
+  <!-- Firebase Cloud Firestore SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
   <script src="/app.js"></script>
 </body>

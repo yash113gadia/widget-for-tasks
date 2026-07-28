@@ -2,8 +2,22 @@
   let tasks = [];
   let currentFilter = 'all';
   let searchQuery = '';
-  let ws = null;
   let isSoundEnabled = true;
+
+  // Firebase Config for task-widget-sync
+  const firebaseConfig = {
+    apiKey: "AIzaSyDl2ioW-WbmLJlmgo3jvEsCBwiITVcgZhs",
+    authDomain: "task-widget-sync.firebaseapp.com",
+    projectId: "task-widget-sync",
+    storageBucket: "task-widget-sync.firebasestorage.app",
+    messagingSenderId: "24764226157",
+    appId: "1:24764226157:web:76450f14bdfc9dbabf3d64"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const tasksCollection = db.collection("tasks");
 
   // DOM Elements
   const taskListEl = document.getElementById('taskList');
@@ -19,12 +33,7 @@
   const currentTimeEl = document.getElementById('currentTime');
   const addDrawer = document.getElementById('addDrawer');
   const toggleAddDrawerBtn = document.getElementById('toggleAddDrawerBtn');
-  const qrBtn = document.getElementById('qrBtn');
   const soundBtn = document.getElementById('soundBtn');
-  const qrModal = document.getElementById('qrModal');
-  const closeQrBtn = document.getElementById('closeQrBtn');
-  const qrImage = document.getElementById('qrImage');
-  const networkUrl = document.getElementById('networkUrl');
   const navItems = document.querySelectorAll('.bottom-nav .nav-item[data-filter]');
 
   // Live Date & Time Updater
@@ -79,40 +88,19 @@
     } catch (e) {}
   }
 
-  // WebSocket Connection
-  function initWebSocket() {
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${window.location.host}`;
-
-    ws = new WebSocket(wsUrl);
-
-    ws.onopen = () => {
+  // Firebase Real-time Listener (No local IP dependency!)
+  function initFirestoreSync() {
+    tasksCollection.orderBy("createdAt", "desc").onSnapshot((snapshot) => {
       syncDot.className = 'sync-dot online';
-    };
-
-    ws.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        switch (data.type) {
-          case 'INIT':
-          case 'TASKS_UPDATED':
-            tasks = data.payload || [];
-            renderTasks();
-            break;
-          case 'TASK_ADDED':
-            tasks.unshift(data.payload);
-            renderTasks();
-            break;
-          default:
-            break;
-        }
-      } catch (err) {}
-    };
-
-    ws.onclose = () => {
+      tasks = [];
+      snapshot.forEach((doc) => {
+        tasks.push({ id: doc.id, ...doc.data() });
+      });
+      renderTasks();
+    }, (error) => {
+      console.error("Firestore sync error:", error);
       syncDot.className = 'sync-dot offline';
-      setTimeout(initWebSocket, 2000);
-    };
+    });
   }
 
   // Calculate Progress Ring
@@ -135,7 +123,7 @@
   // Filter Tasks
   function getFilteredTasks() {
     return tasks.filter((task) => {
-      const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesSearch = (task.title || '').toLowerCase().includes(searchQuery.toLowerCase());
       if (!matchesSearch) return false;
 
       if (currentFilter === 'active') return !task.completed;
@@ -199,24 +187,27 @@
     return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  // Submit New Task
-  taskForm.addEventListener('submit', (e) => {
+  // Submit New Task to Cloud Firestore
+  taskForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const title = taskInput.value.trim();
     if (!title) return;
 
-    const payload = {
+    const newTask = {
       title,
       category: categoryInput.value,
-      priority: priorityInput.value
+      priority: priorityInput.value,
+      completed: false,
+      createdAt: Date.now()
     };
 
-    if (ws && ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ type: 'ADD_TASK', payload }));
+    try {
+      await tasksCollection.add(newTask);
+      taskInput.value = '';
+      addDrawer.classList.remove('open');
+    } catch (err) {
+      console.error("Error adding task:", err);
     }
-
-    taskInput.value = '';
-    addDrawer.classList.remove('open');
   });
 
   // Search Bar Filter
@@ -225,8 +216,8 @@
     renderTasks();
   });
 
-  // Task Actions (Toggle / Delete)
-  taskListEl.addEventListener('click', (e) => {
+  // Task Actions (Toggle / Delete in Firestore)
+  taskListEl.addEventListener('click', async (e) => {
     const target = e.target.closest('[data-action]');
     if (!target) return;
 
@@ -238,16 +229,19 @@
 
     if (action === 'toggle') {
       const task = tasks.find(t => t.id === id);
-      if (task && !task.completed) {
-        playCompletionChime();
-      }
-
-      if (ws && ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify({ type: 'TOGGLE_TASK', payload: { id } }));
+      if (task) {
+        if (!task.completed) playCompletionChime();
+        try {
+          await tasksCollection.doc(id).update({ completed: !task.completed });
+        } catch (err) {
+          console.error("Error updating task:", err);
+        }
       }
     } else if (action === 'delete') {
-      if (ws && ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify({ type: 'DELETE_TASK', payload: { id } }));
+      try {
+        await tasksCollection.doc(id).delete();
+      } catch (err) {
+        console.error("Error deleting task:", err);
       }
     }
   });
@@ -268,28 +262,6 @@
     soundBtn.style.color = isSoundEnabled ? 'var(--accent-primary)' : 'var(--text-muted)';
   });
 
-  // QR Code Modal
-  qrBtn.addEventListener('click', async () => {
-    try {
-      const res = await fetch('/api/network-info');
-      const data = await res.json();
-      qrImage.src = data.qrDataUrl;
-      networkUrl.textContent = data.url;
-      qrModal.classList.add('open');
-    } catch (e) {
-      networkUrl.textContent = window.location.href;
-      qrModal.classList.add('open');
-    }
-  });
-
-  closeQrBtn.addEventListener('click', () => {
-    qrModal.classList.remove('open');
-  });
-
-  qrModal.addEventListener('click', (e) => {
-    if (e.target === qrModal) qrModal.classList.remove('open');
-  });
-
   // Init
-  initWebSocket();
+  initFirestoreSync();
 })();
