@@ -1,0 +1,10 @@
+node_modules/
+data/*.json
+TaskWidget
+.DS_Store
+*.log
+android_app/.gradle/
+android_app/app/build/
+android_app/build/
+android_app/.idea/
+EOF
