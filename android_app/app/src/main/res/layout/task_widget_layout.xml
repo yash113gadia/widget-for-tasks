@@ -3,56 +3,150 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="14dp"
+    android:padding="12dp"
     android:background="#f8fafc">
 
-    <!-- Widget Header -->
+    <!-- Top Header -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="10dp">
 
-        <TextView
-            android:id="@+id/widgetTitle"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tasks"
-            android:textColor="#0f172a"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/widgetSyncStatus"
+            <TextView
+                android:id="@+id/widgetHeaderTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tasks"
+                android:textColor="#0f172a"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/widgetDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today"
+                android:textColor="#64748b"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Right Header Widgets -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="Synced"
-            android:textColor="#6366f1"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Progress Percent Badge -->
+            <TextView
+                android:id="@+id/widgetProgressBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#e0e7ff"
+                android:paddingStart="8dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="3dp"
+                android:text="0%"
+                android:textColor="#6366f1"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Add Task Button (+) -->
+            <ImageButton
+                android:id="@+id/widgetAddBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="#e0e7ff"
+                android:src="@android:drawable/ic_input_add"
+                android:contentDescription="Add Task"
+                android:tint="#6366f1" />
+        </LinearLayout>
     </RelativeLayout>
 
-    <!-- Task List Container -->
-    <TextView
-        android:id="@+id/widgetTaskListText"
+    <!-- Task List (ListView inside RemoteViews) -->
+    <ListView
+        android:id="@+id/widgetListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="Loading tasks..."
-        android:textColor="#64748b"
-        android:textSize="14sp"
-        android:lineSpacingExtra="4dp" />
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:nestedScrollingEnabled="true" />
 
-    <!-- Refresh Button -->
-    <Button
-        android:id="@+id/widgetRefreshBtn"
+    <!-- Empty View for ListView -->
+    <TextView
+        android:id="@+id/widgetEmptyView"
         android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:text="Refresh Sync"
-        android:textColor="#ffffff"
-        android:backgroundTint="#6366f1"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="No tasks found"
+        android:textColor="#94a3b8"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+    <!-- Bottom Filter Tabs -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:padding="2dp">
+
+        <Button
+            android:id="@+id/tabAll"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="All"
+            android:textColor="#6366f1"
+            android:backgroundTint="#e0e7ff"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            style="?android:attr/borderlessButtonStyle" />
+
+        <Button
+            android:id="@+id/tabActive"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Active"
+            android:textColor="#64748b"
+            android:backgroundTint="#ffffff"
+            android:textSize="11sp"
+            style="?android:attr/borderlessButtonStyle" />
+
+        <Button
+            android:id="@+id/tabDone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Done"
+            android:textColor="#64748b"
+            android:backgroundTint="#ffffff"
+            android:textSize="11sp"
+            style="?android:attr/borderlessButtonStyle" />
+
+        <Button
+            android:id="@+id/tabTrash"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Trash"
+            android:textColor="#64748b"
+            android:backgroundTint="#ffffff"
+            android:textSize="11sp"
+            style="?android:attr/borderlessButtonStyle" />
+    </LinearLayout>
 
 </LinearLayout>

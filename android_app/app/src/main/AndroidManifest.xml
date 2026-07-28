@@ -20,6 +20,12 @@
             </intent-filter>
         </activity>
 
+        <!-- Quick Add Dialog Activity -->
+        <activity
+            android:name=".QuickAddActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.DayNight.Dialog" />
+
         <!-- Native Android Home Screen Widget Provider -->
         <receiver
             android:name=".TaskWidgetProvider"
@@ -31,6 +37,12 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/task_widget_info" />
         </receiver>
+
+        <!-- RemoteViews Service for interactive ListView -->
+        <service
+            android:name=".TaskRemoteViewsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false" />
 
     </application>
 
