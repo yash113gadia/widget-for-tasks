@@ -1,5 +1,6 @@
 #!/bin/bash
-APP_DIR="/Users/squanchy/Widget For Tasks/Task Widget.app"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+APP_DIR="$DIR/Task Widget.app"
 mkdir -p "$APP_DIR/Contents/MacOS"
 mkdir -p "$APP_DIR/Contents/Resources"
 
@@ -22,11 +23,16 @@ cat << 'EOF' > "$APP_DIR/Contents/Info.plist"
 </plist>
 EOF
 
-cat << 'EOF' > "$APP_DIR/Contents/MacOS/launcher"
+# GUI launches inherit launchd's minimal PATH, which has no node.
+# Bake in node's directory so the sync server can start from Finder.
+NODE_BIN="$( dirname "$( command -v node )" )"
+
+cat << EOF > "$APP_DIR/Contents/MacOS/launcher"
 #!/bin/bash
-DIR="/Users/squanchy/Widget For Tasks"
-cd "$DIR"
-exec "$DIR/start_widget.sh"
+DIR="$DIR"
+export PATH="$NODE_BIN:\$PATH"
+cd "\$DIR"
+exec "\$DIR/start_widget.sh"
 EOF
 
 chmod +x "$APP_DIR/Contents/MacOS/launcher"

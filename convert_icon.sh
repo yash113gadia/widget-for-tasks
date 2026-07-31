@@ -1,6 +1,6 @@
 #!/bin/bash
 LOGO_SRC="/tmp/logo.png"
-PUBLIC_DIR="/Users/squanchy/Widget For Tasks/public"
+PUBLIC_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/public"
 APP_DIR="/Applications/Task Widget.app"
 
 echo "1. Generating Android Pixel PWA Icons..."
